@@ -1,20 +1,37 @@
+{% extends 'bootstrap/base.html' %}
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blogs</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-</head>
-{% include 'navbar.html' %}
-<body>
-    <div class="container" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">
-        {% block body %}{% endblock %}
-        
-        
+    {% if title %}
+    <title> {{ title }}</title>
+    {% else %}
+    <title> Welcome to Pitch App </title>
+    {% endif %}
+  </head>
+
+  <body>
+    <div>
+      {%block styles %}
+        {{super()}}
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!--Importing the simple mde css and js files  -->
+        {{ simplemde.css}}
+        {{ simplemde.js }}
+      {% endblock %}
+
+      {% block navbar %}
+          {% include 'navbar.html' %}
+      {% endblock %}
+
+      {% block content%}
+      {% endblock%}
     </div>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="//cdn.ckeditor.com/4.6.2/basic/ckeditor.js"></script>
     <script type="text/javascript">CKEDITOR.replace('editor')</script>
-</body> 
+  </body>
+  
 </html>

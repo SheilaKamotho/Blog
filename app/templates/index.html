@@ -1,7 +1,101 @@
-{% extends 'base.html' %}
+{% extends 'base.html'%}
 
-{% block body %}
-<div class="jumbotron text-center" style="padding-top: 15rem;">
-    <h1 class="lead"><strong>MyBlogApp</strong></h1>
-    <h4>'There is no better way to express your ideas and opinions than with a personal blog.'</h4> 
+{% block styles%}
+    {{super()}}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
+    {% endblock%}
+{% block content%}
+    <div class="container" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">
+        <div class="jumbotron text-center">
+            <h1 class="lead"><strong>MyPitchApp</strong></h1>
+            <h4>'Where Word-Artists are Made'</h4>
+            <h3 class="lead"><strong>In life, you only have 60 seconds to impress someone.1 minute can make or break you. MyPitchApp makes sure that you use your 1 minute to actually say something meaningful.Drop your 1 minute pitches and have people give feedback, upvote or downvote your pitch.</strong></h3>
+            <h3 class="lead"><strong>Practice Makes Perfect Conversationalists!</strong></h3>
+        </div>
+    </div>
+    <div class="row" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">
+        <div class="col-md-2 col-lg-2 col-xs-1"></div>
+        <div class="col-md-8 col-lg-8 col-xs-10 ">
+            <ul class="list-index ">
+                {% for pitch in pitches.items%}
+                <li class="jumbotron " style="padding-left:40px ; list-style-type: none;">                 
+                    <div class="card mb-6 bg-dark text-white">
+                        <div class="card-body">
+                            <h4 class="card-title" style="color:brown"> Pitch Category: {{pitch.pitch_category}}~<a href="{{url_for('main.posted',username=pitch.user.username)}}"><br>Posted By: {{pitch.user.username}}</a></h4>
+                            <p class="card-text"><strong>{{pitch.pitch}}</strong></p>
+                            <p class="card-text" style="color:brown">Posted On: {{pitch.posted.strftime('%Y-%m-%d')}}</p>
+                            <button onclick="addone()" type="button" class="btn btn btn-success" id="justdoit">Like:<span id="thisone">0</span></button>
+                            <button onclick="addtwo()" type="button" class="btn btn btn-danger" id="justdoit">Dislike:<span id="thistwo">0</span></button><br>
+                            <br>
+                            <h5>Leave a Comment</h5>
+                            <input type="text" placeholder="Enter your name" id="name"><br>
+                            <br>
+                            <input type="text" aria-rowcount="5" placeholder=" Enter comment" id="comment"><br>
+                            <br>
+                            <button onclick="add()">Submit</button>
+                            <button onclick="location.reload()">Clear</button>
+                            <ul class="list"></ul>
+                        </div>
+                    </div>              
+                </li>
+                <br>
+                {%endfor%}
+            </ul>
+        </div>
+        
+        <div class="col-md-2 col-lg-2 col-xs-1"></div>
+    </div>
+    <script type="text/javascript">
+        function addone(){
+            var foo = document.getElementById('thisone').innerHTML;
+            foo++;
+            document.getElementById('thisone').innerHTML = foo;
+          }
+        function addtwo(){
+            var foo = document.getElementById('thistwo').innerHTML;
+            foo++;
+            document.getElementById('thistwo').innerHTML = foo;
+          }
+    </script>
+    <script type="text/javascript">
+        let add = () => {
+        let name = document.querySelector('.container #name'); 
+        let comment = document.querySelector('.container #comment'); 
+        
+        if (name.value !== "" && comment.value != "") { 
+        
+        let list = document.querySelector('.list'); 
+        let time = new Date();
+        let h = time.getHours(); 
+        let m = time.getMinutes(); 
+        let s = time.getSeconds(); 
+        let now = h + " : " + m + " : " + s;
+        let list_item = document.createElement ("l1"); 
+        
+        list_item.innerHTML = `
+        <span>
+        <p>${name.value} ${now}</p> 
+        </span>
+        <p>${comment.value}</p>
+        `;
+        list.append(list_item); 
+        }
+        
+        if (name.value == "" || comment.value == "") {
+        let list = document.querySelector('.list'); 
+        let list_item = document.createElement ("l2"); 
+        var warn = 'Please enter name & comment!';  
+        list_item.innerHTML = `
+        <span>
+        <p>${warn}</p> 
+        </span>
+        `;
+        list.append(list_item); 
+        }
+        name.value=comment.value = "";
+        }
+        
+      </script>
+   
 {% endblock %}
