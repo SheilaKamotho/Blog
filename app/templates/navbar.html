@@ -8,12 +8,12 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/">MyPitchApp</a>
+                <a class="navbar-brand" href="/">MyBlogApp</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="{{url_for('main.index')}}">Home</a></li>
-                    <li><a href="{{url_for('main.upload_pitch')}}">Post Pitch</a></li>
+                    <li><a href="{{url_for('main.upload_blog')}}">Post Blog</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                         {% if current_user.is_authenticated%}

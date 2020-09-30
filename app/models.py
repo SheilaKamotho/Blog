@@ -19,7 +19,7 @@ class User(UserMixin,db.Model):
     bio=db.Column(db.String(255))
     profile_pic_path = db.Column(db.String())
     comment=db.relationship('Comment',backref='user',lazy='dynamic')
-    pitch=db.relationship('Pitch',backref='user',lazy='dynamic')
+    blog=db.relationship('Blog',backref='user',lazy='dynamic')
     password_secure = db.Column(db.String(255))
     pass_secure = db.Column(db.String(255))
 
@@ -36,7 +36,7 @@ class User(UserMixin,db.Model):
 
 
     def __repr__(self):
-        return f"User('{self.username}','{self.email}','{self.pitch}')"
+        return f"User('{self.username}','{self.email}','{self.blog}')"
 
 class Comment(db.Model):
     __tablename__='comments'
@@ -44,7 +44,7 @@ class Comment(db.Model):
     comment=db.Column(db.String)
     posted=db.Column(db.DateTime,default=datetime.utcnow)
     user_id=db.Column(db.Integer,db.ForeignKey("users.id"))
-    pitch_id=db.Column(db.Integer,db.ForeignKey('pitch.id'))
+    blog_id=db.Column(db.Integer,db.ForeignKey('blog.id'))
 
 
     def __repr__(self):
@@ -55,15 +55,25 @@ class Comment(db.Model):
         db.session.commit()
 
     @classmethod
-    def get_comments(cls,pitch_id):
-        comment=Comment.query.filter_by(pitch_id=pitch_id).all()
+    def get_comments(cls,blog_id):
+        comment=Comment.query.filter_by(blog_id=blog_id).all()
         return comment
 
 
-class Pitch(db.Model):
-    __tablename__='pitch'
+class Blog(db.Model):
+    __tablename__='blog'
     id=db.Column(db.Integer,primary_key=True)
-    pitch=db.Column(db.String())
-    pitch_category=db.Column(db.String(20))
+    blog=db.Column(db.String())
+    blog_category=db.Column(db.String(20))
     posted=db.Column(db.DateTime,default=datetime.utcnow)
     user_id=db.Column(db.Integer,db.ForeignKey('users.id'))
+
+class Blog:
+    def __init__(self, id, author, quote, permalink):
+        self.id = id
+        self.author = author
+        self.quote = quote
+        self.permalink = permalink
+
+date_time=datetime.utcnow().replace(tzinfo=pytz.UTC)
+time_zone=date_time.astimezone(pytz.timezone('Africa/Nairobi'))
